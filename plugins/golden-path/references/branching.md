@@ -18,7 +18,9 @@
 - Solo repos: when CODEOWNERS lists only the owner, nobody else can approve. GitHub doesn't let an author approve their own PR, and Claude pushes as the owner's account. The owner reviews the PR on GitHub and merges it; the merge is the approval. When a second person joins, add them to CODEOWNERS and raise the ruleset back to 1 approval.
 - All conversations resolved and CI green before merge. Squash merge.
 
-## GitHub ruleset for `main` (set by `init-repo-claude`)
-- Require a pull request, 1 approval (0 in a solo repo), dismiss stale reviews, require conversation resolution.
+## GitHub ruleset for `main` (set by `setup-branch-policy`)
+- One ruleset, `golden-path: main`, on the default branch, no bypass actors.
+- Require a pull request, 1 approval (0 in a solo repo), dismiss stale reviews, require conversation resolution, squash merge only.
 - Require status checks: the repo's lint/validate workflow.
 - Block force pushes and deletions.
+- Repo settings: squash merge only, delete head branches after merge.

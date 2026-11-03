@@ -46,6 +46,7 @@ To turn it off in a single repo, set `"golden-path@golden-path": false` in that 
 | `/golden-path:review-terraform` | Runs fmt, validate and tflint, reviews the branch against the Terraform standard and gives a verdict with findings |
 | `/golden-path:create-pr` | Opens the PR with the standard title and body, links the issue (`Closes #n`), checks a CODEOWNERS reviewer was requested and moves the issue's card to Review |
 | `/golden-path:cleanup-merged-branch` | Checks the PR merged with nothing left behind, deletes the branch locally and on origin, updates `main`, closes the issue and moves the card to Done |
+| `/golden-path:setup-branch-policy` | Creates or repairs the `main` ruleset and merge settings from `branching.md`: PR, approvals (0 in a solo repo), CI, squash only. Shows the plan, applies on a yes |
 
 Claude can also pick a skill by itself when the task matches.
 
