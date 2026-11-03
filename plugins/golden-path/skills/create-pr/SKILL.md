@@ -16,7 +16,9 @@ Never push to `main`, never force push, never merge, and never open the PR as a 
 1. Branch: `git branch --show-current`. On `main` (or detached HEAD) stop: the work needs a branch first.
 2. Issue number and type from the branch name: `feature/<n>-...` → `feat`, `fix/<n>-...` → `fix`. A `chore/<slug>` branch has no number: ask for the issue. If there is no issue at all, ask before creating one; don't open a PR without `Closes #<n>`.
 3. `gh auth status`. If `gh` is missing or not logged in, stop and say so.
-4. Uncommitted changes (`git status --porcelain`): ask whether to commit them first. Don't commit or stash on your own.
+4. Working tree (`git status --porcelain`), two cases:
+   - Changes to tracked files: ask whether to commit them first. Don't commit or stash on your own.
+   - Untracked files: they are not in the PR. List them and ask whether any belong to it (a new file that was never `git add`ed is an easy way to ship half a change). Files clearly unrelated to the issue don't block.
 5. `git fetch -q origin main`, then `git log --oneline origin/main..HEAD`. No commits ahead: stop, nothing to open. If `origin/main` is not an ancestor of `HEAD` (`git merge-base --is-ancestor origin/main HEAD`), mention that the branch is behind; don't rebase unasked.
 6. Existing PR: `gh pr list --head <branch> --state open --json number,url`. If one exists, don't open another: show it and continue from step 6 (reviewers and board) for that PR.
 

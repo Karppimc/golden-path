@@ -40,7 +40,7 @@ Show one line and ask for a yes:
 
 ## 4. Switch and delete
 
-1. Uncommitted changes (`git status --porcelain`): stop and ask; switching would carry them to `main`.
+1. Uncommitted changes to tracked files (`git status --porcelain --untracked-files=no`): stop and ask; switching would carry them to `main`. Untracked files don't block: they stay in the working tree whichever branch is checked out.
 2. `git switch main`, then `git pull --ff-only origin main`. If it can't fast-forward, stop and explain; local `main` has commits it shouldn't.
 3. `git branch -D <branch>` (capital D is needed after a squash merge; step 2 already checked nothing is lost).
 4. Remote: if `git ls-remote --exit-code --heads origin <branch>` finds it, `git push origin --delete <branch>`. GitHub may already have deleted it on merge; then there's nothing to do.

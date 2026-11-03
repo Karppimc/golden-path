@@ -34,7 +34,7 @@ Nothing in this skill pushes. The branch stays local until `/golden-path:create-
 
 ## 4. Branch
 
-Check the working tree first. Uncommitted changes (`git status --porcelain`) would come along to the new branch: ask whether to commit, stash or leave them. Don't decide for the user.
+Check the working tree first. Uncommitted changes to tracked files (`git status --porcelain --untracked-files=no`) would come along to the new branch: ask whether to commit, stash or leave them. Don't decide for the user. Untracked files don't block; mention them only if they look related to the issue.
 
 Name per `branching.md`:
 
