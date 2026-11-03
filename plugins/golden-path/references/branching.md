@@ -15,7 +15,7 @@
 - Body sections: Summary, Changes, How it was tested (plan/lint output), Deliberate deviations, `Closes #<issue>`.
 - Reviewers come from the repo's `CODEOWNERS`. If no one else is requested, ask for a reviewer by name.
 - One approval from someone other than the author; new commits dismiss stale approvals.
-- Solo repos: when CODEOWNERS lists only the owner, nobody else can approve. The owner reviews Claude's diff before it is pushed, and the PR body says so under "How it was tested". When a second person joins, add them to CODEOWNERS and raise the ruleset back to 1 approval.
+- Solo repos: when CODEOWNERS lists only the owner, nobody else can approve. GitHub doesn't let an author approve their own PR, and Claude pushes as the owner's account. The owner reviews the PR on GitHub and merges it; the merge is the approval. When a second person joins, add them to CODEOWNERS and raise the ruleset back to 1 approval.
 - All conversations resolved and CI green before merge. Squash merge.
 
 ## GitHub ruleset for `main` (set by `init-repo-claude`)

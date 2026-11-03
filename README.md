@@ -77,7 +77,7 @@ golden-path/
 
 - **No version bump, no update.** Installed plugins only update when `version` in `plugin.json` goes up. CI fails a PR that changes the plugin without bumping it.
 - **Short rules, details on demand.** Everything Claude reads every session costs context, so `rules.md` stays around 300 words.
-- **Claude does the work, a human owns the result.** Every PR needs an approval from someone who didn't write it. In a repo with one maintainer, that person reviews Claude's diff before anything is pushed instead. Nothing is applied to the cluster without an explicit yes.
+- **Claude does the work, a human owns the result.** Every PR needs an approval from someone who didn't write it. In a repo with one maintainer, that person reviews the PR and their merge is the approval. Claude never merges. Nothing is applied to the cluster without an explicit yes.
 
 ## Developing
 
