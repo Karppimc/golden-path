@@ -59,6 +59,7 @@ desired=$(jq -n --arg name "$name" --argjson n "$approvals" --argjson checks "$c
 desired_settings='{"allow_squash_merge":true,"allow_merge_commit":false,"allow_rebase_merge":false,"delete_branch_on_merge":true}'
 
 # Project the current ruleset onto the keys we manage, so GitHub's extra fields and defaults don't show as changes.
+# shellcheck disable=SC2016  # $vars below are jq variables, not shell
 project='
   def proj($d):
     . as $c
