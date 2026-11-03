@@ -58,16 +58,25 @@ query($owner: String!, $repo: String!, $number: Int!, $field: String!) {
   }
 }'
 
+# A board without the field makes GitHub answer with data plus a NOT_FOUND error on project.field,
+# and gh exits non-zero. That case is handled below (exit 4); any other error is fatal.
+errfile=$(mktemp)
+trap 'rm -f "$errfile"' EXIT
 if ! response=$(gh api graphql -f query="$query" -f owner="$owner" -f repo="$repo" \
-  -F number="$issue" -f field="$field" 2>&1); then
-  echo "$response" >&2
-  if grep -qiE 'scope|INSUFFICIENT' <<<"$response"; then
-    echo "hint: the gh token needs the 'project' scope. Run: gh auth refresh -s project" >&2
+  -F number="$issue" -f field="$field" 2>"$errfile"); then
+  if ! jq -e '.data.repository.issue != null and ([.errors[]? | select(.type != "NOT_FOUND" or .path[-1] != "field")] | length == 0)' \
+    <<<"$response" >/dev/null 2>&1; then
+    cat "$errfile" >&2
+    if grep -qiE 'scope|INSUFFICIENT' "$errfile"; then
+      echo "hint: the gh token needs the 'project' scope. Run: gh auth refresh -s project" >&2
+    fi
+    exit 1
   fi
-  exit 1
 fi
 
-# One TSV row per open board: item id, project id, number, title, field id, target option id, current value
+# One row per open board: item id, project id, number, title, field id, target option id, current value.
+# Fields are joined with the unit separator (\x1f), not tab: tab is IFS whitespace, so `read` would
+# collapse consecutive tabs and an empty field would shift the columns after it.
 rows=$(jq -r --arg col "$column" '
   .data.repository.issue.projectItems.nodes[]
   | select(.project != null and .project.closed == false)
@@ -78,7 +87,7 @@ rows=$(jq -r --arg col "$column" '
       (.project.field.id // ""),
       ((.project.field.options // []) | map(select((.name | ascii_downcase) == ($col | ascii_downcase))) | (.[0].id // "")),
       (.fieldValueByName.name // "(none)") ]
-  | @tsv' <<<"$response")
+  | join("\u001f")' <<<"$response")
 
 if [[ -z "$rows" ]]; then
   echo "issue #$issue is not on any open project board"
@@ -86,7 +95,7 @@ if [[ -z "$rows" ]]; then
 fi
 
 status=0
-while IFS=$'\t' read -r item_id project_id number title field_id option_id current; do
+while IFS=$'\x1f' read -r item_id project_id number title field_id option_id current; do
   label="board #$number \"$title\""
   if [[ -z "$field_id" ]]; then
     echo "skipped: $label has no single-select field \"$field\""
