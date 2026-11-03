@@ -1,0 +1,10 @@
+{
+  "extraKnownMarketplaces": {
+    "golden-path": {
+      "source": { "source": "github", "repo": "karppimc/golden-path" }
+    }
+  },
+  "enabledPlugins": {
+    "golden-path@golden-path": true
+  }
+}
