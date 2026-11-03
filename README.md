@@ -38,6 +38,14 @@ Or let a repo suggest it: add this to the repo's `.claude/settings.json` and any
 
 To turn it off in a single repo, set `"golden-path@golden-path": false` in that repo's settings.
 
+## Skills
+
+| Skill | What it does |
+|---|---|
+| `/golden-path:review-terraform` | Runs fmt, validate and tflint, reviews the branch against the Terraform standard and gives a verdict with findings |
+
+Claude can also pick a skill by itself when the task matches.
+
 ## How it fits together
 
 ```
