@@ -1,0 +1,15 @@
+{
+  "name": "golden-path",
+  "description": "Golden path for karppimc's homelab platform: shared rules, skills and standards for Claude Code",
+  "owner": {
+    "name": "Santeri Karppi",
+    "url": "https://github.com/karppimc"
+  },
+  "plugins": [
+    {
+      "name": "golden-path",
+      "source": "./plugins/golden-path",
+      "description": "Team rules at session start, review and delivery skills for Terraform, Ansible and Kubernetes repos"
+    }
+  ]
+}

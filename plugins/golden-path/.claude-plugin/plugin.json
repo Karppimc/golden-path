@@ -1,0 +1,12 @@
+{
+  "name": "golden-path",
+  "version": "0.1.0",
+  "description": "Team rules at session start, review and delivery skills for Terraform, Ansible and Kubernetes repos",
+  "author": {
+    "name": "Santeri Karppi",
+    "url": "https://github.com/karppimc"
+  },
+  "repository": "https://github.com/karppimc/golden-path",
+  "license": "MIT",
+  "keywords": ["platform-engineering", "terraform", "ansible", "kubernetes", "homelab"]
+}

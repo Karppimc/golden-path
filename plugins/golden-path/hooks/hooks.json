@@ -1,0 +1,17 @@
+{
+  "description": "Load the golden-path team rules at session start, only in our own repos",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/load-rules.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

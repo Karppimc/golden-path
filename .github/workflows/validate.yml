@@ -1,0 +1,52 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: JSON is well-formed
+        run: |
+          jq empty .claude-plugin/marketplace.json
+          for f in plugins/*/.claude-plugin/plugin.json plugins/*/hooks/hooks.json; do
+            jq empty "$f" && echo "ok: $f"
+          done
+
+      - name: Hook scripts pass shellcheck
+        run: shellcheck plugins/*/hooks/*.sh
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Claude Code plugin validate
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude plugin validate .
+          for p in plugins/*/; do claude plugin validate "$p"; done
+
+      - name: Version bumped when the plugin changed
+        if: github.event_name == 'pull_request'
+        run: |
+          base="origin/${{ github.base_ref }}"
+          for p in plugins/*/; do
+            manifest="${p}.claude-plugin/plugin.json"
+            if git diff --quiet "$base"...HEAD -- "$p"; then
+              echo "unchanged: $p"; continue
+            fi
+            old=$(git show "$base:$manifest" 2>/dev/null | jq -r .version || echo "none")
+            new=$(jq -r .version "$manifest")
+            if [ "$old" = "$new" ]; then
+              echo "::error file=$manifest::$p changed but version is still $new. Bump it or nobody gets the update."
+              exit 1
+            fi
+            echo "ok: $p $old -> $new"
+          done
