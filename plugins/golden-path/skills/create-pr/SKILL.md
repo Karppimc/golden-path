@@ -9,7 +9,7 @@ Open a pull request for the current branch, link its issue, make sure a reviewer
 
 The process lives in this plugin, two folders up from this skill: `../../references/branching.md` (title, body, approvals) and `../../references/board.md` (columns). Resolve them against this skill's base directory and read both before drafting.
 
-Never push to `main`, never force push, never merge, and never open the PR as a draft unless the user asks (GitHub does not request CODEOWNERS on drafts). Nothing is pushed until the user has reviewed the diff and said yes (step 4b).
+Never push to `main`, never force push, never merge, and never open the PR as a draft unless the user asks (GitHub does not request CODEOWNERS on drafts). The human gate is the PR itself: the owner reviews it on GitHub and merges it.
 
 ## 1. Preflight
 
@@ -60,16 +60,7 @@ Closes #<n>
 
 Only write test results you actually saw in this session. If nothing was run, say "Not tested:" and why. Never invent plan output.
 
-Solo repo (CODEOWNERS on `main` lists only the owner, see step 6): add a last bullet to "How it was tested": `Human review: @<login> reviewed the diff before push (solo repo, no second approver).` Get the login from `gh api user --jq .login`.
-
-## 4b. Human review before push
-
-This is the human gate, and in a solo repo it replaces the approval. Show the user:
-
-1. `git diff --stat origin/main...HEAD` and the commit list, and offer the full diff (`git diff origin/main...HEAD`) or walk through it file by file if asked.
-2. The title and body draft.
-
-Ask for an explicit yes. Changes requested: make them, commit, and show the diff again. Silence or "looks fine I guess" with open questions is not a yes. Nothing is pushed before the yes.
+Before pushing, check your own work: the review gate passed, the tests in "How it was tested" really ran, and every acceptance criterion is met or listed under "Deliberate deviations". Then push and open without waiting; the owner reviews the PR itself. If the user asked to see the draft first, show it and wait.
 
 ## 5. Push and open
 
@@ -84,7 +75,7 @@ Reviewers come from CODEOWNERS, so GitHub requests them when the PR opens.
 1. `gh pr view <pr> --json author,reviewRequests`.
 2. At least one requested reviewer who isn't the author: done.
 3. None: look for `.github/CODEOWNERS`, `CODEOWNERS` or `docs/CODEOWNERS` on the base branch.
-   - **Solo repo** (every owner in CODEOWNERS is the PR author): this is expected. The review in step 4b was the human gate and the PR body records it. Don't ask for a reviewer; report "solo repo, reviewed before push".
+   - **Solo repo** (every owner in CODEOWNERS is the PR author): this is expected. The owner reviews the PR and merges it; the merge is the approval. Don't ask for a reviewer; report "solo repo, owner reviews and merges".
    - Otherwise tell the user why no one was requested (no CODEOWNERS file or no matching pattern). Every PR needs one approval from someone who didn't write it, so ask who to request and run `gh pr edit <pr> --add-reviewer <login>`. Never guess a login. Suggest adding a CODEOWNERS file if there was none.
 
 ## 7. Move the card
@@ -114,4 +105,4 @@ Then:
 | Reviewers | Requested logins, or what's missing |
 | Board | Moved to Review / already there / not done and why |
 
-End with **Not verified:** anything that didn't run (CI is still pending, board move skipped, no tests), and the next step: wait for an approval (solo repo: none needed) and green CI, squash merge, then `/golden-path:cleanup-merged-branch`.
+End with **Not verified:** anything that didn't run (CI is still pending, board move skipped, no tests), and the next step for the owner: review the PR (solo repo: the merge is the approval), wait for green CI and squash merge. After the merge, run `/golden-path:cleanup-merged-branch` to move the card to Done.

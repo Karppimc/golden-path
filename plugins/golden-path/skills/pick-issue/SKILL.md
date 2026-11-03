@@ -9,7 +9,7 @@ Start work on an issue: read its spec, create the branch, move its card to **In 
 
 The process lives in this plugin, two folders up from this skill: `../../references/branching.md` (branch names, commits), `../../references/board.md` (columns, what an issue must have) and `../../references/coding-standards/`. Resolve them against this skill's base directory.
 
-Nothing in this skill pushes. The branch stays local until `/golden-path:create-pr`, after the user has reviewed the diff.
+Nothing in this skill pushes. The branch stays local until `/golden-path:create-pr` pushes it and opens the PR for the owner's review.
 
 ## 1. Which issue
 
