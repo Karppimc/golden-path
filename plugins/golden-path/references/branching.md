@@ -13,10 +13,12 @@
 ## Pull requests
 - Title: `<type>: <summary> (#<issue>)`.
 - Body sections: Summary, Changes, How it was tested (plan/lint output), Deliberate deviations, `Closes #<issue>`.
+- Reviewers come from the repo's `CODEOWNERS`. If no one else is requested, ask for a reviewer by name.
 - One approval from someone other than the author; new commits dismiss stale approvals.
+- Solo repos: when CODEOWNERS lists only the owner, nobody else can approve. The owner reviews Claude's diff before it is pushed, and the PR body says so under "How it was tested". When a second person joins, add them to CODEOWNERS and raise the ruleset back to 1 approval.
 - All conversations resolved and CI green before merge. Squash merge.
 
 ## GitHub ruleset for `main` (set by `init-repo-claude`)
-- Require a pull request, 1 approval, dismiss stale reviews, require conversation resolution.
+- Require a pull request, 1 approval (0 in a solo repo), dismiss stale reviews, require conversation resolution.
 - Require status checks: the repo's lint/validate workflow.
 - Block force pushes and deletions.

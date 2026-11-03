@@ -12,3 +12,5 @@ GitHub Projects board with columns: **Todo → In Progress → Review → Done**
 - Every issue has: a clear title, acceptance criteria as a checklist, labels (`terraform`, `ansible`, `kubernetes`, `docs`, `bug`).
 - An issue's spec is the source of truth. If the spec leaves something out on purpose, note it as an `[Observation]`, not a defect.
 - Use `gh issue view`, `gh project item-list` and `gh project item-edit` for board operations.
+- The board is whichever open project the issue is on; skills find it from the issue at run time. The column is the single-select field `Status`.
+- Board operations need the `project` scope on the gh token: `gh auth refresh -s project`.

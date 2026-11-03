@@ -13,7 +13,8 @@ You are working in a karppimc platform repo (Proxmox homelab, Terraform, Ansible
 
 ## Pull requests
 - Open PRs with `/golden-path:create-pr`. Do not open them by hand.
-- Every PR links its issue (`Closes #<n>`) and needs one approval from someone who did not write it.
+- Every PR links its issue (`Closes #<n>`) and needs one approval from someone who did not write it. Solo repos (CODEOWNERS lists only the owner) are the exception: the owner's review before push replaces the approval.
+- Never push without showing the user the diff and getting an explicit yes.
 - Run the matching review skill before opening the PR and fix blocking findings first.
 
 ## Code

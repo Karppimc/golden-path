@@ -42,7 +42,10 @@ To turn it off in a single repo, set `"golden-path@golden-path": false` in that 
 
 | Skill | What it does |
 |---|---|
+| `/golden-path:pick-issue` | Reads the issue's spec, assigns it, creates the branch, moves the card to In Progress and plans the work against the standards |
 | `/golden-path:review-terraform` | Runs fmt, validate and tflint, reviews the branch against the Terraform standard and gives a verdict with findings |
+| `/golden-path:create-pr` | Opens the PR with the standard title and body, links the issue (`Closes #n`), checks a CODEOWNERS reviewer was requested and moves the issue's card to Review |
+| `/golden-path:cleanup-merged-branch` | Checks the PR merged with nothing left behind, deletes the branch locally and on origin, updates `main`, closes the issue and moves the card to Done |
 
 Claude can also pick a skill by itself when the task matches.
 
@@ -57,6 +60,7 @@ golden-path/
     │   ├── hooks.json                   # SessionStart hook
     │   └── load-rules.sh                # prints rules.md, only in karppimc repos
     ├── skills/                          # one folder per procedure
+    ├── scripts/board-move.sh            # moves an issue's card, shared by the skills
     └── references/
         ├── rules.md                     # ~300 words, read every session
         ├── branching.md
@@ -73,7 +77,7 @@ golden-path/
 
 - **No version bump, no update.** Installed plugins only update when `version` in `plugin.json` goes up. CI fails a PR that changes the plugin without bumping it.
 - **Short rules, details on demand.** Everything Claude reads every session costs context, so `rules.md` stays around 300 words.
-- **Claude does the work, a human owns the result.** Every PR needs an approval from someone who didn't write it. Nothing is applied to the cluster without an explicit yes.
+- **Claude does the work, a human owns the result.** Every PR needs an approval from someone who didn't write it. In a repo with one maintainer, that person reviews Claude's diff before anything is pushed instead. Nothing is applied to the cluster without an explicit yes.
 
 ## Developing
 
