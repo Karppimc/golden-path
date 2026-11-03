@@ -9,7 +9,7 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -20,12 +20,14 @@ jobs:
             jq empty "$f" && echo "ok: $f"
           done
 
-      - name: Hook scripts pass shellcheck
-        run: shellcheck plugins/*/hooks/*.sh
+      - name: Plugin scripts pass shellcheck
+        run: |
+          find plugins -name '*.sh' -print | sort
+          find plugins -name '*.sh' -print0 | xargs -0 shellcheck
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 22
+          node-version: 24
 
       - name: Claude Code plugin validate
         run: |
