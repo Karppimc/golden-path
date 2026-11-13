@@ -72,7 +72,7 @@ If the user only asked to pick up the issue, stop here and show the plan. If the
 
 ## 7. Do the work
 
-- Follow the plan and the standards. Stay inside the issue's scope; something extra you notice goes in the report as a suggestion for a new issue.
+- Follow the plan and the standards. Stay inside the issue's scope; something extra you notice goes in the report as a suggestion for a new issue; if the user wants it filed, put it on the board in Todo (`board.md`).
 - Safety rules from `rules.md` apply: `plan`, `validate`, lint, `--check --diff` and `kubectl diff` are fine; `apply`, `destroy`, real playbook runs and `kubectl apply/delete` need the user's explicit yes in this session.
 - When done, run the matching review skill (`/golden-path:review-terraform` for `.tf` changes) and fix Blocking and Should fix findings.
 - Don't commit unasked. Propose the commit: Conventional Commit subject in imperative mood (max 72 characters), issue referenced in the body (`Refs #<n>`), and ask.

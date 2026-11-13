@@ -8,6 +8,7 @@ You are working in a karppimc platform repo (Proxmox homelab, Terraform, Ansible
 
 ## Work items
 - Every change starts from a GitHub issue. If there is none, ask before creating one.
+- A new issue goes on the board in Todo: `bash <plugin files>/scripts/board-move.sh <n> Todo` after `gh issue create --project <board>`.
 - Branch from an up-to-date `main`: `feature/<issue>-<short-slug>` or `fix/<issue>-<short-slug>`.
 - Never commit or push directly to `main`.
 
