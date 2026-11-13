@@ -6,7 +6,7 @@ It is the "paved road" of an Internal Developer Platform, applied to AI-assisted
 
 Used by [homelab-platform](https://github.com/karppimc/homelab-platform) (Proxmox, Terraform, Ansible, k3s).
 
-**8 skills · 1 rules file, loaded every session · 2 commands to install · 0 files you must add per repo**
+**9 skills · 1 rules file, loaded every session · 2 commands to install · 0 files you must add per repo**
 
 ## Why
 
@@ -77,6 +77,7 @@ Then start a new session. Auto-update can be turned on per marketplace from the 
 | `/golden-path:cleanup-merged-branch` | Checks the PR merged with nothing left behind, deletes the branch locally and on origin, updates `main`, closes the issue and moves the card to Done |
 | `/golden-path:setup-branch-policy` | Creates or repairs the `main` ruleset and merge settings from `branching.md`: PR, approvals (0 in a solo repo), CI, squash only. Shows the plan, applies on a yes |
 | `/golden-path:init-repo-claude` | Onboards a repo: short CLAUDE.md, CODEOWNERS, `.claude/settings.json` that suggests the plugin, `.gitignore` for the stack, labels, board link and branch policy. Only adds what is missing |
+| `/golden-path:update-golden-path` | For changes to this plugin: checks the version bump (patch, minor, major), keeps the README skills table, count and rules budget in sync, and runs what CI runs locally |
 
 Claude can also pick a skill by itself when the task matches.
 
