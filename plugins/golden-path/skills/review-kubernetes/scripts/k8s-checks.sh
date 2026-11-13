@@ -78,8 +78,8 @@ for d in "${kustom_dirs[@]}"; do
     skipped+=("kustomize build (neither kubectl nor kustomize installed)"); continue
   fi
   [ -n "$out" ] && echo "$out" | tail -20
-  result $rc
-  [ $rc -eq 0 ] && rendered+=("$out_file")
+  result "$rc"
+  [ "$rc" -eq 0 ] && rendered+=("$out_file")
 done
 [ ${#chart_dirs[@]} -gt 0 ] && skipped+=("Helm template rendering for ${chart_dirs[*]}")
 
@@ -146,7 +146,11 @@ if [ $diff_cluster -eq 1 ]; then
     out=$(kubectl diff "${f_args[@]}" 2>&1); rc=$?
     echo "$out" | tail -80
     # kubectl diff: 0 no differences, 1 differences found, >1 error.
-    if [ $rc -le 1 ]; then echo "$([ $rc -eq 0 ] && echo 'no differences' || echo 'differences shown above')"; else result 1; fi
+    case "$rc" in
+      0) echo "no differences" ;;
+      1) echo "differences shown above" ;;
+      *) result 1 ;;
+    esac
   else
     skipped+=("kubectl diff (no kubectl or no current context)")
   fi
