@@ -27,7 +27,7 @@ Never push to `main`, never force push, never merge, and never open the PR as a 
 `rules.md` says to run the matching review skill first and fix blocking findings.
 
 - Changed files: `git diff --name-only origin/main...HEAD`.
-- `.tf` files changed and `/golden-path:review-terraform` hasn't run on this branch in this session: run it now.
+- Run the matching review skill for each language changed, if it hasn't run on this branch in this session: `.tf` files → `/golden-path:review-terraform`; Ansible files (playbooks, roles, inventory, `requirements.yml` under the `ansible.cfg` directory) → `/golden-path:review-ansible`.
 - Verdict **fix before PR**: stop and show the findings. Continue only if the user explicitly says so, and then list the unfixed findings under "Deliberate deviations".
 - No review skill exists yet for the language: say so and note it under "How it was tested".
 
