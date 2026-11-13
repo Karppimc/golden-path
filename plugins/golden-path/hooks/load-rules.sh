@@ -5,7 +5,8 @@ set -euo pipefail
 
 owners="${GOLDEN_PATH_OWNERS:-karppimc}"
 project_dir="${CLAUDE_PROJECT_DIR:-$PWD}"
-rules="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}/references/rules.md"
+root="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
+rules="$root/references/rules.md"
 
 remote="$(git -C "$project_dir" remote get-url origin 2>/dev/null || true)"
 [ -n "$remote" ] || exit 0
@@ -13,7 +14,10 @@ remote="$(git -C "$project_dir" remote get-url origin 2>/dev/null || true)"
 for owner in ${owners//,/ }; do
   case "$remote" in
     *github.com[:/]"$owner"/*)
-      [ -f "$rules" ] && cat "$rules"
+      if [ -f "$rules" ]; then
+        cat "$rules"
+        printf '\nPlugin files (references/, scripts/): %s\n' "$root"
+      fi
       exit 0
       ;;
   esac
