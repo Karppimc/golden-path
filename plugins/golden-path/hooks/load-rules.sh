@@ -11,9 +11,11 @@ rules="$root/references/rules.md"
 remote="$(git -C "$project_dir" remote get-url origin 2>/dev/null || true)"
 [ -n "$remote" ] || exit 0
 
+# GitHub owner names are case-insensitive: compare lowercased.
+remote="${remote,,}"
 for owner in ${owners//,/ }; do
   case "$remote" in
-    *github.com[:/]"$owner"/*)
+    *github.com[:/]"${owner,,}"/*)
       if [ -f "$rules" ]; then
         cat "$rules"
         printf '\nPlugin files (references/, scripts/): %s\n' "$root"
