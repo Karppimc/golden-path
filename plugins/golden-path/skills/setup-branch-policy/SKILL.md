@@ -34,7 +34,7 @@ Run `bash <skill-dir>/scripts/branch-policy.sh plan --approvals <n> --check <nam
 It compares only what it manages:
 
 - Ruleset `golden-path: main` on `~DEFAULT_BRANCH`, active, no bypass actors: deletion and non-fast-forward blocked; pull request required with `<n>` approvals, stale reviews dismissed on push, review threads resolved, squash merge only; required status checks.
-- Repo settings: squash merge only, delete head branches after merge.
+- Repo settings: squash merge only, delete head branches after merge, allow auto-merge (the owner turns it on per PR).
 
 | Exit | Meaning |
 |---|---|
@@ -47,7 +47,7 @@ It also lists other rulesets, extra rules on ours and classic branch protection.
 
 ## 4. Apply
 
-Show the plan output and, in plain words, what changes for the user: direct pushes to `main` stop working, PRs need green `<checks>` and resolved conversations, only squash merge, branches deleted after merge. Ask for a yes.
+Show the plan output and, in plain words, what changes for the user: direct pushes to `main` stop working, PRs need green `<checks>` and resolved conversations, only squash merge, branches deleted after merge, and the owner can turn on auto-merge for a PR. Ask for a yes.
 
 On yes: `bash <skill-dir>/scripts/branch-policy.sh apply --approvals <n> --check ...`, then run `plan` again. It must exit 0; anything else, report it.
 
@@ -60,7 +60,7 @@ Lead with one line: **Branch policy: applied**, **already in place** or why it s
 | Ruleset `golden-path: main` | Created / updated / ok (id) |
 | Approvals | 0 (solo repo) / 1 |
 | Required checks | names |
-| Merge settings | Squash only, delete branches after merge |
+| Merge settings | Squash only, delete branches after merge, auto-merge allowed |
 | Other rulesets / classic protection | Listed, not touched |
 
 End with **Not verified:** anything not checked (e.g. a required check that hasn't run on a PR yet), and a note that this PR and the next one are the first to run under the policy.

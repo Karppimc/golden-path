@@ -15,7 +15,7 @@ You are working in a karppimc platform repo (Proxmox homelab, Terraform, Ansible
 ## Pull requests
 - Open PRs with `/golden-path:create-pr`. Do not open them by hand.
 - Every PR links its issue (`Closes #<n>`) and needs one approval from someone who did not write it. In a solo repo (CODEOWNERS lists only the owner) the owner reviews the PR and their merge is the approval.
-- Pushing a feature branch and opening its PR is fine. Never push to `main`, never force push, never merge: the human gate is the PR.
+- Pushing a feature branch and opening its PR is fine. Never push to `main`, never force push, never merge or enable auto-merge: the human gate is the PR.
 - Run the matching review skill before opening the PR and fix blocking findings first.
 
 ## Code
