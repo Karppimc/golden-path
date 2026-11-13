@@ -66,9 +66,9 @@ printf '  %s\n' "${changed[@]}" | head -40
 [ -n "$removed" ] && echo "Skills removed or renamed: $removed"
 
 # 2. Version.
-if [ -n "$removed" ]; then suggest=major
-elif [ -n "$added" ]; then suggest=minor
-else suggest=patch; fi
+if [ -n "$removed" ]; then suggest="major"
+elif [ -n "$added" ]; then suggest="minor"
+else suggest="patch"; fi
 echo
 echo "##### Version"
 echo "Base $base_version, now $version, suggested level: $suggest$([ "$suggest" = major ] && echo ' (removed skill: ask)')"
@@ -87,6 +87,7 @@ fi
 # 3. README in sync with the plugin.
 echo
 echo "##### README"
+# shellcheck disable=SC2016  # the backticks are literal Markdown, not command substitution
 mapfile -t rows < <(grep -oE '^\| `/golden-path:[a-z0-9-]+`' README.md | sed -E 's/.*golden-path:([a-z0-9-]+)`/\1/' | sort)
 missing=$(comm -23 <(printf '%s\n' "${skills[@]}") <(printf '%s\n' "${rows[@]}") | paste -sd ' ' -)
 extra=$(comm -13 <(printf '%s\n' "${skills[@]}") <(printf '%s\n' "${rows[@]}") | paste -sd ' ' -)
