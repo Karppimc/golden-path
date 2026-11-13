@@ -36,13 +36,14 @@ case "$cmd" in
         pullRequest(number: $n) {
           number url state headRefName reviewDecision
           reviewThreads(first: 100) {
+            totalCount
             nodes {
               id isResolved isOutdated path line originalLine
-              comments(first: 50) { nodes { author { login } body createdAt url } }
+              comments(first: 50) { totalCount nodes { author { login } body createdAt url } }
             }
           }
-          reviews(first: 50) { nodes { state author { login } body submittedAt } }
-          comments(last: 30) { nodes { author { login } body createdAt url } }
+          reviews(first: 50) { totalCount nodes { state author { login } body submittedAt } }
+          comments(last: 30) { totalCount nodes { author { login } body createdAt url } }
         }
       }
     }'
@@ -53,6 +54,15 @@ case "$cmd" in
         "PR #\($p.number) \($p.state) \($p.headRefName) \($p.url)",
         "Review decision: \($p.reviewDecision // "none")",
         "Threads: \([$p.reviewThreads.nodes[] | select(.isResolved | not)] | length) open, \([$p.reviewThreads.nodes[] | select(.isResolved)] | length) resolved",
+        # No pagination: say so when a list was cut, instead of dropping items silently.
+        ( if $p.reviewThreads.totalCount > ($p.reviewThreads.nodes | length)
+          then "WARNING: showing \($p.reviewThreads.nodes | length) of \($p.reviewThreads.totalCount) threads; read the rest on GitHub" else empty end ),
+        ( $p.reviewThreads.nodes[] | select(.comments.totalCount > (.comments.nodes | length))
+          | "WARNING: thread \(.id) shows \(.comments.nodes | length) of \(.comments.totalCount) comments" ),
+        ( if $p.reviews.totalCount > ($p.reviews.nodes | length)
+          then "WARNING: showing \($p.reviews.nodes | length) of \($p.reviews.totalCount) reviews" else empty end ),
+        ( if $p.comments.totalCount > ($p.comments.nodes | length)
+          then "WARNING: showing the last \($p.comments.nodes | length) of \($p.comments.totalCount) PR comments" else empty end ),
         "",
         ( $p.reviewThreads.nodes[]
           | select($all or (.isResolved | not))
