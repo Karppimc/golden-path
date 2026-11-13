@@ -6,6 +6,8 @@ It is the "paved road" of an Internal Developer Platform, applied to AI-assisted
 
 Used by [homelab-platform](https://github.com/karppimc/homelab-platform) (Proxmox, Terraform, Ansible, k3s).
 
+**6 skills · 1 rules file, loaded every session · 2 commands to install · 0 files you must add per repo**
+
 ## Why
 
 | Problem | Fix |
@@ -16,10 +18,23 @@ Used by [homelab-platform](https://github.com/karppimc/homelab-platform) (Proxmo
 
 ## Install
 
+You need the `claude` CLI, and `gh` and `jq` for the skills:
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash   # Claude Code CLI
+gh auth login --web -s project                    # project scope: skills move board cards
+```
+
+Then, in a terminal:
+
 ```bash
 claude plugin marketplace add karppimc/golden-path
 claude plugin install golden-path@golden-path
 ```
+
+Start a new Claude Code session afterwards; plugins load at session start.
+
+**VS Code:** the extension has no `/plugin` command ("/plugin isn't available in this environment"). Install with the two commands above in the terminal of the same machine (in WSL, the WSL terminal). The extension and the CLI share `~/.claude`, so the plugin shows up in the extension's next session; type `/golden-path:` to see the skills.
 
 Or let a repo suggest it: add this to the repo's `.claude/settings.json` and anyone who opens it in Claude Code is asked to install the plugin.
 
@@ -38,6 +53,18 @@ Or let a repo suggest it: add this to the repo's `.claude/settings.json` and any
 
 To turn it off in a single repo, set `"golden-path@golden-path": false` in that repo's settings.
 
+## Updating
+
+A change reaches people only when `version` in `plugin.json` goes up; CI makes sure every plugin change bumps it. To get the latest version:
+
+```bash
+claude plugin marketplace update golden-path
+claude plugin update golden-path@golden-path
+claude plugin list        # shows the installed version
+```
+
+Then start a new session. Auto-update can be turned on per marketplace from the `/plugin` menu of the terminal CLI.
+
 ## Skills
 
 | Skill | What it does |
@@ -51,6 +78,8 @@ To turn it off in a single repo, set `"golden-path@golden-path": false` in that 
 
 Claude can also pick a skill by itself when the task matches.
 
+The usual flow for one issue: `init-repo-claude` (once per repo) → `pick-issue` → `review-terraform` → `create-pr` → the owner reviews and merges → `cleanup-merged-branch`. The card moves Todo → In Progress → Review → Done on its own.
+
 ## How it fits together
 
 ```
@@ -60,17 +89,17 @@ golden-path/
     ├── .claude-plugin/plugin.json       # name + version
     ├── hooks/
     │   ├── hooks.json                   # SessionStart hook
-    │   └── load-rules.sh                # prints rules.md, only in karppimc repos
+    │   └── load-rules.sh                # prints rules.md + plugin path, only in karppimc repos
     ├── skills/                          # one folder per procedure
     ├── scripts/board-move.sh            # moves an issue's card, shared by the skills
     └── references/
-        ├── rules.md                     # ~300 words, read every session
+        ├── rules.md                     # ~350 words, read every session
         ├── branching.md
         ├── board.md
         └── coding-standards/            # general, terraform, ansible, kubernetes
 ```
 
-1. **Rules** — plugins can't ship a `CLAUDE.md`, so a small SessionStart hook hands Claude the rules. It checks the git remote and stays silent outside repos owned by `karppimc` (override with `GOLDEN_PATH_OWNERS=owner1,owner2`).
+1. **Rules** — plugins can't ship a `CLAUDE.md`, so a small SessionStart hook hands Claude the rules. It checks the git remote and stays silent outside repos owned by `karppimc`, matched case-insensitively (override with `GOLDEN_PATH_OWNERS=owner1,owner2`).
 2. **The repo's own `CLAUDE.md`** — short, only what is unique to that repo.
 3. **Skills** — Claude always knows which exist and reads the full instructions only when it uses one.
 4. **References** — standards and process docs. Skills read them, and so does Claude when needed. Rules stay short; details are on demand.
@@ -78,7 +107,7 @@ golden-path/
 ## Lessons built in
 
 - **No version bump, no update.** Installed plugins only update when `version` in `plugin.json` goes up. CI fails a PR that changes the plugin without bumping it.
-- **Short rules, details on demand.** Everything Claude reads every session costs context, so `rules.md` stays around 300 words.
+- **Short rules, details on demand.** Everything Claude reads every session costs context, so `rules.md` stays around 350 words.
 - **Claude does the work, a human owns the result.** Every PR needs an approval from someone who didn't write it. In a repo with one maintainer, that person reviews the PR and their merge is the approval. Claude never merges. Nothing is applied to the cluster without an explicit yes.
 
 ## Developing
