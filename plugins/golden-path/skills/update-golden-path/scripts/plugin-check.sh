@@ -52,8 +52,19 @@ todo=0
 fix() { echo "  FIX: $*"; todo=1; }
 skipped=()
 
-# 1. What changed under the plugin, committed on the branch or not yet.
-mapfile -t changed < <({ git diff --name-only "$base"...HEAD -- "$plugin"; git status --porcelain -- "$plugin" | cut -c4-; } | sort -u)
+# 1. What changed under the plugin: committed on the branch, tracked files changed since,
+# and untracked files with content (work not yet added, e.g. a new skill). Empty untracked
+# files (a stray .gitkeep) can't change the plugin and never reach CI unless added.
+mapfile -t untracked < <(git ls-files --others --exclude-standard -- "$plugin")
+untracked_counted=(); untracked_empty=()
+for f in "${untracked[@]}"; do
+  if [ -s "$f" ]; then untracked_counted+=("$f"); else untracked_empty+=("$f"); fi
+done
+mapfile -t changed < <({
+  git diff --name-only "$base"...HEAD -- "$plugin"
+  git status --porcelain --untracked-files=no -- "$plugin" | cut -c4-
+  printf '%s\n' "${untracked_counted[@]}"
+} | grep -v '^$' | sort -u)
 mapfile -t skills < <(find "$plugin/skills" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort)
 mapfile -t base_skills < <(git ls-tree -d --name-only "$base:$plugin/skills" 2>/dev/null | sort)
 added=$(comm -13 <(printf '%s\n' "${base_skills[@]}") <(printf '%s\n' "${skills[@]}") | paste -sd ' ' -)
@@ -61,7 +72,9 @@ removed=$(comm -23 <(printf '%s\n' "${base_skills[@]}") <(printf '%s\n' "${skill
 
 echo "##### Change against $base"
 echo "Files changed under $plugin: ${#changed[@]}"
-printf '  %s\n' "${changed[@]}" | head -40
+[ ${#changed[@]} -gt 0 ] && printf '  %s\n' "${changed[@]}" | head -40
+[ ${#untracked_counted[@]} -gt 0 ] && echo "Untracked, counted above (git add them with the change): ${untracked_counted[*]}"
+[ ${#untracked_empty[@]} -gt 0 ] && echo "Untracked and empty, ignored: ${untracked_empty[*]}"
 [ -n "$added" ] && echo "Skills added: $added"
 [ -n "$removed" ] && echo "Skills removed or renamed: $removed"
 
