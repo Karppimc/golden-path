@@ -23,7 +23,7 @@ find_root() {
 
 root=$(find_root "${paths[0]}")
 if [ -z "$root" ]; then
-  root=$(cd "${paths[0]}" 2>/dev/null && pwd || pwd)
+  if [ -d "${paths[0]}" ]; then root=$(cd "${paths[0]}" && pwd); else root=$(pwd); fi
   echo "No ansible.cfg found; running from $root"
 fi
 
