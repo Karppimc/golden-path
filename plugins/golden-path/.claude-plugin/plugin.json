@@ -1,6 +1,6 @@
 {
   "name": "golden-path",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "description": "Team rules at session start, review and delivery skills for Terraform, Ansible and Kubernetes repos",
   "author": {
     "name": "Santeri Karppi",

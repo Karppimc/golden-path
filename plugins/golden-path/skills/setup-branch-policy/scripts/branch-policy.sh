@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Compare or apply the golden-path branch policy for the current repo's default branch.
 # The policy is one repository ruleset named "golden-path: main" plus repo merge settings
-# (squash only, delete head branches after merge). Other rulesets are listed, never touched.
+# (squash only, delete head branches after merge, auto-merge allowed). Other rulesets are listed, never touched.
 #
 # Usage: branch-policy.sh plan|apply --approvals <n> --check <name> [--check <name>...]
 #
@@ -56,7 +56,7 @@ desired=$(jq -n --arg name "$name" --argjson n "$approvals" --argjson checks "$c
         required_status_checks: $checks } }
   ]
 }')
-desired_settings='{"allow_squash_merge":true,"allow_merge_commit":false,"allow_rebase_merge":false,"delete_branch_on_merge":true}'
+desired_settings='{"allow_squash_merge":true,"allow_merge_commit":false,"allow_rebase_merge":false,"delete_branch_on_merge":true,"allow_auto_merge":true}'
 
 # Project the current ruleset onto the keys we manage, so GitHub's extra fields and defaults don't show as changes.
 # shellcheck disable=SC2016  # $vars below are jq variables, not shell
@@ -90,7 +90,7 @@ else
   extra=""
 fi
 
-settings_now=$(gh api "repos/$repo" --jq '{allow_squash_merge, allow_merge_commit, allow_rebase_merge, delete_branch_on_merge}') || exit 1
+settings_now=$(gh api "repos/$repo" --jq '{allow_squash_merge, allow_merge_commit, allow_rebase_merge, delete_branch_on_merge, allow_auto_merge}') || exit 1
 
 pending=0
 echo "repo: $repo"
@@ -133,5 +133,5 @@ elif [[ "$(jq -S . <<<"$projected")" != "$(jq -S . <<<"$desired")" ]]; then
   gh api -X PUT "repos/$repo/rulesets/$id" --input - <<<"$body" --jq '"applied: updated ruleset \(.id)"'
 fi
 if [[ "$(jq -S . <<<"$settings_now")" != "$(jq -S . <<<"$desired_settings")" ]]; then
-  gh api -X PATCH "repos/$repo" --input - <<<"$desired_settings" --jq '"applied: settings squash=\(.allow_squash_merge) merge=\(.allow_merge_commit) rebase=\(.allow_rebase_merge) delete_branch_on_merge=\(.delete_branch_on_merge)"'
+  gh api -X PATCH "repos/$repo" --input - <<<"$desired_settings" --jq '"applied: settings squash=\(.allow_squash_merge) merge=\(.allow_merge_commit) rebase=\(.allow_rebase_merge) delete_branch_on_merge=\(.delete_branch_on_merge) auto_merge=\(.allow_auto_merge)"'
 fi

@@ -76,7 +76,7 @@ Then start a new session. Auto-update can be turned on per marketplace from the 
 | `/golden-path:create-pr` | Opens the PR with the standard title and body, links the issue (`Closes #n`), checks a CODEOWNERS reviewer was requested and moves the issue's card to Review |
 | `/golden-path:review-comments` | Works through the PR's review: fixes what is asked in new commits, answers questions, explains disagreements, replies per thread and resolves the ones it fixed |
 | `/golden-path:cleanup-merged-branch` | Checks the PR merged with nothing left behind, deletes the branch locally and on origin, updates `main`, closes the issue and moves the card to Done |
-| `/golden-path:setup-branch-policy` | Creates or repairs the `main` ruleset and merge settings from `branching.md`: PR, approvals (0 in a solo repo), CI, squash only. Shows the plan, applies on a yes |
+| `/golden-path:setup-branch-policy` | Creates or repairs the `main` ruleset and merge settings from `branching.md`: PR, approvals (0 in a solo repo), CI, squash only, auto-merge allowed. Shows the plan, applies on a yes |
 | `/golden-path:init-repo-claude` | Onboards a repo: short CLAUDE.md, CODEOWNERS, `.claude/settings.json` that suggests the plugin, `.gitignore` for the stack, labels, board link and branch policy. Only adds what is missing |
 | `/golden-path:update-golden-path` | For changes to this plugin: checks the version bump (patch, minor, major), keeps the README skills table, count and rules budget in sync, and runs what CI runs locally |
 

@@ -107,4 +107,4 @@ Then:
 | Reviewers | Requested logins, or what's missing |
 | Board | Moved to Review / already there / not done and why |
 
-End with **Not verified:** anything that didn't run (CI is still pending, board move skipped, no tests), and the next step for the owner: review the PR (solo repo: the merge is the approval), wait for green CI and squash merge. After the merge, run `/golden-path:cleanup-merged-branch` to move the card to Done.
+End with **Not verified:** anything that didn't run (CI is still pending, board move skipped, no tests), and the next step for the owner: review the PR (solo repo: the merge is the approval), wait for green CI and squash merge. To skip the wait, the owner can turn on auto-merge themselves: `gh pr merge <pr> --auto --squash` or "Enable auto-merge" on the PR, and GitHub merges once CI and the rules pass. Never run that command yourself. After the merge, run `/golden-path:cleanup-merged-branch` to move the card to Done.
