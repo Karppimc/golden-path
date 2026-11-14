@@ -31,7 +31,7 @@ One round of questions, only for what is missing:
 
 1. **Labels** from `board.md`: `docs`, `bug` and one per detected stack (`terraform`, `ansible`, `kubernetes`). Create only missing ones: `gh label create <name> -c <color> -d <description>`.
 2. **Board link**: `gh project link <number> --owner <owner> --repo <owner>/<repo>` if not linked.
-3. **Branch policy**: run `/golden-path:setup-branch-policy`. It has its own plan and yes. No CI check on the default branch yet: skip it, say so, and offer to file an issue for a validate workflow (on the board in Todo, see `board.md`); come back to it once CI runs on `main`.
+3. **Branch policy**: run `/golden-path:setup-branch-policy`. It has its own plan and yes. No CI check on the default branch yet: skip it, say so, and offer `/golden-path:scaffold-ci-workflow` (file its issue on the board in Todo, see `board.md`); once that workflow has run on `main`, run `/golden-path:setup-branch-policy`.
 
 ## 4. Files (through a PR)
 
