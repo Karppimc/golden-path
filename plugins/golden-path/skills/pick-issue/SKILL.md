@@ -63,6 +63,8 @@ A failed board move doesn't stop the work. Report it and carry on.
 
 ## 6. Plan
 
+**Larger issue?** If it creates something new (a module, role, policy set, skill), touches several areas or running infrastructure, or its spec leaves real choices open, hand over to `/golden-path:plan-feature` now: it does the research, the plan and the build. Otherwise plan here:
+
 1. Read `general.md` plus the standard for the issue's label: `terraform.md`, `ansible.md` or `kubernetes.md`. For `docs` and `bug` issues, pick by the files involved.
 2. Read the code the issue touches, enough to know where the change goes.
 3. Turn the acceptance criteria into a todo list, one item per criterion, plus anything the standard requires (README for a new module, variable validation...).
@@ -74,8 +76,8 @@ If the user only asked to pick up the issue, stop here and show the plan. If the
 
 - Follow the plan and the standards. Stay inside the issue's scope; something extra you notice goes in the report as a suggestion for a new issue; if the user wants it filed, put it on the board in Todo (`board.md`).
 - Safety rules from `rules.md` apply: `plan`, `validate`, lint, `--check --diff` and `kubectl diff` are fine; `apply`, `destroy`, real playbook runs and `kubectl apply/delete` need the user's explicit yes in this session.
-- When done, run the matching review skill (`/golden-path:review-terraform` for `.tf` changes) and fix Blocking and Should fix findings.
-- Don't commit unasked. Propose the commit: Conventional Commit subject in imperative mood (max 72 characters), issue referenced in the body (`Refs #<n>`), and ask.
+- When done, run the matching review skill (`/golden-path:review-terraform`, `review-ansible`, `review-kubernetes`) and fix Blocking and Should fix findings.
+- Commit on the branch: Conventional Commit subject in imperative mood (max 72 characters), issue referenced in the body (`Refs #<n>`). Nothing is pushed here.
 
 ## 8. Report
 
@@ -85,6 +87,6 @@ Then **Where things are:**
 
 - **Branch:** `<branch>`, based on `origin/main`, no upstream.
 - **Issue #<n>:** assigned to you, card in In Progress (or why not).
-- **Not committed yet:** the changed files as links, if any.
+- **Commits:** what is committed on the branch, and any changed files not committed yet, as links.
 
-Then the review verdict and findings if step 7 ran, **Not verified:** what you couldn't check, and one next step: answer the open questions, commit, or run `/golden-path:create-pr`.
+Then the review verdict and findings if step 7 ran, **Not verified:** what you couldn't check, and one next step: answer the open questions, or run `/golden-path:create-pr`.
