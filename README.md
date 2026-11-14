@@ -6,7 +6,7 @@ It is the "paved road" of an Internal Developer Platform, applied to AI-assisted
 
 Used by [homelab-platform](https://github.com/karppimc/homelab-platform) (Proxmox, Terraform, Ansible, k3s).
 
-**11 skills · 1 rules file, loaded every session · 2 commands to install · 0 files you must add per repo**
+**12 skills · 1 rules file, loaded every session · 2 commands to install · 0 files you must add per repo**
 
 ## Why
 
@@ -71,6 +71,7 @@ Then start a new session. Auto-update can be turned on per marketplace from the 
 |---|---|
 | `/golden-path:pick-issue` | Reads the issue's spec, assigns it, creates the branch, moves the card to In Progress and plans the work against the standards |
 | `/golden-path:plan-feature` | For larger issues: research the issue, code and standards, agree a plan (posted on the issue), turn it into a todo list, implement and review |
+| `/golden-path:scaffold-terraform-module` | Creates a module skeleton (`main`, `variables`, `outputs`, `versions`, README) with versions pinned like the repo's and an example validation; passes `review-terraform` as created |
 | `/golden-path:review-terraform` | Runs fmt, validate and tflint, reviews the branch against the Terraform standard and gives a verdict with findings |
 | `/golden-path:review-ansible` | Runs ansible-lint, yamllint and syntax-check (collections in a temp dir, no host contacted), reviews the branch against the Ansible standard and gives a verdict with findings |
 | `/golden-path:review-kubernetes` | Renders Kustomize, runs kubeconform with CRD schemas, checks image pins and the repo's own Kyverno policies, `kubectl diff` only on a yes; reviews against the Kubernetes standard and gives a verdict with findings |
