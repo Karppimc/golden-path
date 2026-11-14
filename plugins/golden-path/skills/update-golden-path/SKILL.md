@@ -50,9 +50,12 @@ Rerun the check until it exits 0. Anything it lists under "Not run" goes into th
 - In the report, tell the user how to get the new version after the merge:
   ```bash
   claude plugin marketplace update golden-path
-  claude plugin update golden-path@golden-path
+  claude plugin update golden-path@golden-path --scope user
+  # in each repo that enables the plugin in .claude/settings.json:
+  claude plugin update golden-path@golden-path --scope project
+  claude plugin list
   ```
-  then start a new Claude Code session; plugins load at session start.
+  Installs update separately: the user-scope install and one project-scope install per repo. Without `--scope` only the install detected from the current folder is updated. `claude plugin list` must show the new version for every install; then start a new Claude Code session, since plugins load at session start.
 
 ## 5. Report
 

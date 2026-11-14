@@ -52,7 +52,7 @@ Work on a branch from `origin/main` (`chore/init-repo-claude`, no upstream). Use
   - <the user's repo notes, or remove this section>
   ```
 - **`.github/CODEOWNERS`** with the owners from step 2.
-- **`.claude/settings.json`**: add the marketplace and enable the plugin, merging into an existing file without dropping keys:
+- **`.claude/settings.json`**: add the marketplace and enable the plugin, merging into an existing file without dropping keys. This gives the repo its own project-scope install of the plugin, which updates separately from a user-scope install (`claude plugin update golden-path@golden-path --scope project`, run in the repo); say so in the report:
   ```json
   {
     "extraKnownMarketplaces": {

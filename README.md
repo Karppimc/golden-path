@@ -55,15 +55,22 @@ To turn it off in a single repo, set `"golden-path@golden-path": false` in that 
 
 ## Updating
 
-A change reaches people only when `version` in `plugin.json` goes up; CI makes sure every plugin change bumps it. To get the latest version:
+A change reaches people only when `version` in `plugin.json` goes up; CI makes sure every plugin change bumps it. The plugin can be installed more than once, and each install updates separately:
+
+- **user scope**, from `claude plugin install`: used in every repo.
+- **project scope**, one per repo whose `.claude/settings.json` enables the plugin (`init-repo-claude` adds that file).
+
+`claude plugin update` without `--scope` only updates the install it detects from the current folder. To get the latest version everywhere:
 
 ```bash
 claude plugin marketplace update golden-path
-claude plugin update golden-path@golden-path
-claude plugin list        # shows the installed version
+claude plugin update golden-path@golden-path --scope user
+# in each repo that enables the plugin in .claude/settings.json:
+(cd ~/homelab-platform && claude plugin update golden-path@golden-path --scope project)
+claude plugin list        # every install and its version
 ```
 
-Then start a new session. Auto-update can be turned on per marketplace from the `/plugin` menu of the terminal CLI.
+Keep all installs on the same version, then start a new session. Auto-update can be turned on per marketplace from the `/plugin` menu of the terminal CLI.
 
 ## Skills
 
