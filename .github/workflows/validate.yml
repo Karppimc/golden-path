@@ -25,6 +25,13 @@ jobs:
           find plugins -name '*.sh' -print | sort
           find plugins -name '*.sh' -print0 | xargs -0 shellcheck
 
+      - name: Skills follow the house style
+        run: |
+          for p in plugins/*/; do
+            lint="${p}skills/create-skill/scripts/skill-lint.sh"
+            if [ -f "$lint" ]; then bash "$lint"; fi
+          done
+
       - uses: actions/setup-node@v5
         with:
           node-version: 24

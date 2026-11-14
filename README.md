@@ -6,7 +6,7 @@ It is the "paved road" of an Internal Developer Platform, applied to AI-assisted
 
 Used by [homelab-platform](https://github.com/karppimc/homelab-platform) (Proxmox, Terraform, Ansible, k3s).
 
-**12 skills · 1 rules file, loaded every session · 2 commands to install · 0 files you must add per repo**
+**13 skills · 1 rules file, loaded every session · 2 commands to install · 0 files you must add per repo**
 
 ## Why
 
@@ -88,6 +88,7 @@ Keep all installs on the same version, then start a new session. Auto-update can
 | `/golden-path:setup-branch-policy` | Creates or repairs the `main` ruleset and merge settings from `branching.md`: PR, approvals (0 in a solo repo), CI, squash only, auto-merge allowed. Shows the plan, applies on a yes |
 | `/golden-path:init-repo-claude` | Onboards a repo: short CLAUDE.md, CODEOWNERS, `.claude/settings.json` that suggests the plugin, `.gitignore` for the stack, labels, board link and branch policy. Only adds what is missing |
 | `/golden-path:update-golden-path` | For changes to this plugin: checks the version bump (patch, minor, major), keeps the README skills table, count and rules budget in sync, and runs what CI runs locally |
+| `/golden-path:create-skill` | Adds a new skill in the house style: skeleton, deterministic work in a script, checked by the skill linter (name, intact description with triggers, numbered steps, report), then version bump and README row |
 
 Claude can also pick a skill by itself when the task matches.
 

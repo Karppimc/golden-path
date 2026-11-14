@@ -16,7 +16,7 @@ Only in the golden-path repo (its `.claude-plugin/marketplace.json` is named `go
 - files changed under `plugins/golden-path/`, skills added or removed,
 - the version against the base, with a suggested level,
 - README: skills table rows against skill folders, the `**N skills · ...**` line, the rules word budget (`rules.md` within 15% of the `~N words` in the tree), the tree showing `hooks/`, `skills/`, `scripts/`, `references/`,
-- what CI runs: JSON well-formed, shellcheck on every plugin script, `claude plugin validate` for the marketplace and the plugin.
+- what CI runs: JSON well-formed, shellcheck on every plugin script, the skill linter (`create-skill`'s `skill-lint.sh`) on every skill, `claude plugin validate` for the marketplace and the plugin.
 
 Exit 0: nothing to fix, go to step 4. Exit 10: the `FIX:` lines say what. Exit 2: not the golden-path repo.
 
