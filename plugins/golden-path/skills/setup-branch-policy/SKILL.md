@@ -29,7 +29,7 @@ This changes how everyone can push and merge. Never apply without showing the pl
 
 ## 3. Plan
 
-Run `bash <skill-dir>/scripts/branch-policy.sh plan --approvals <n> --check <name> [--check <name>...]`.
+Run `bash <skill-dir>/scripts/branch-policy.sh plan --approvals <n> --check <name> [--check <name>...]`. It works on the repo of the current folder; `--repo <owner/name>` points it at another one.
 
 It compares only what it manages:
 
