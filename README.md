@@ -6,7 +6,7 @@ It is the "paved road" of an Internal Developer Platform, applied to AI-assisted
 
 Used by [homelab-platform](https://github.com/karppimc/homelab-platform) (Proxmox, Terraform, Ansible, k3s).
 
-**14 skills · 1 rules file, loaded every session · 2 commands to install · 0 files you must add per repo**
+**15 skills · 1 rules file, loaded every session · 2 commands to install · 0 files you must add per repo**
 
 ## Why
 
@@ -86,6 +86,7 @@ Keep all installs on the same version, then start a new session. Auto-update can
 | `/golden-path:review-comments` | Works through the PR's review: fixes what is asked in new commits, answers questions, explains disagreements, replies per thread and resolves the ones it fixed |
 | `/golden-path:cleanup-merged-branch` | Checks the PR merged with nothing left behind, deletes the branch locally and on origin, updates `main`, closes the issue and moves the card to Done |
 | `/golden-path:setup-branch-policy` | Creates or repairs the `main` ruleset and merge settings from `branching.md`: PR, approvals (0 in a solo repo), CI, squash only, auto-merge allowed. Shows the plan, applies on a yes |
+| `/golden-path:audit-repo` | Read-only check of one repo or every repo on the board against the baseline (files, labels, CI, ruleset, pinned versions, PRs and cards) and of stale plugin installs; names the skill that fixes each gap |
 | `/golden-path:init-repo-claude` | Onboards a repo: short CLAUDE.md, CODEOWNERS, `.claude/settings.json` that suggests the plugin, `.gitignore` for the stack, labels, board link and branch policy. Only adds what is missing |
 | `/golden-path:scaffold-ci-workflow` | Generates the `validate` workflow for the repo's stacks (Terraform, Ansible, Kubernetes and Kyverno tests, yamllint, shellcheck) with pinned versions and one aggregating check for the ruleset; never overwrites an existing workflow |
 | `/golden-path:update-golden-path` | For changes to this plugin: checks the version bump (patch, minor, major), keeps the README skills table, count and rules budget in sync, and runs what CI runs locally |

@@ -3,7 +3,8 @@
 # The policy is one repository ruleset named "golden-path: main" plus repo merge settings
 # (squash only, delete head branches after merge, auto-merge allowed). Other rulesets are listed, never touched.
 #
-# Usage: branch-policy.sh plan|apply --approvals <n> --check <name> [--check <name>...]
+# Usage: branch-policy.sh plan|apply --approvals <n> --check <name> [--check <name>...] [--repo <owner/name>]
+#   --repo defaults to the repo of the current folder
 #
 # Exit codes:
 #   0   plan: nothing to change / apply: applied
@@ -12,16 +13,18 @@
 #   10  plan: changes pending
 set -euo pipefail
 
-usage() { echo "usage: branch-policy.sh plan|apply --approvals <n> --check <name> [--check <name>...]" >&2; exit 2; }
+usage() { echo "usage: branch-policy.sh plan|apply --approvals <n> --check <name> [--check <name>...] [--repo <owner/name>]" >&2; exit 2; }
 
 mode="${1:-}"; shift || true
 [[ "$mode" == plan || "$mode" == apply ]] || usage
 approvals=""
+repo=""
 checks=()
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --approvals) approvals="${2:-}"; shift 2 ;;
     --check) checks+=("${2:-}"); shift 2 ;;
+    --repo) repo="${2:-}"; shift 2 ;;
     *) usage ;;
   esac
 done
@@ -31,7 +34,9 @@ for tool in gh jq diff; do
   command -v "$tool" >/dev/null 2>&1 || { echo "missing tool: $tool" >&2; exit 2; }
 done
 
-repo=$(gh repo view --json nameWithOwner --jq .nameWithOwner) || exit 1
+if [ -z "$repo" ]; then
+  repo=$(gh repo view --json nameWithOwner --jq .nameWithOwner) || exit 1
+fi
 name="golden-path: main"
 
 checks_json=$(printf '%s\n' "${checks[@]}" | jq -R '{context: .}' | jq -s .)
@@ -107,7 +112,7 @@ else
 fi
 [[ -n "$extra" ]] && echo "ruleset: extra rules kept as they are: $(tr '\n' ' ' <<<"$extra")"
 [[ -n "$others" ]] && echo "other rulesets (not touched): $(tr '\n' ';' <<<"$others")"
-if gh api "repos/$repo/branches/$(gh repo view --json defaultBranchRef --jq .defaultBranchRef.name)/protection" >/dev/null 2>&1; then
+if gh api "repos/$repo/branches/$(gh api "repos/$repo" --jq .default_branch)/protection" >/dev/null 2>&1; then
   echo "classic branch protection: present (not touched; consider removing it in favour of the ruleset)"
 fi
 
