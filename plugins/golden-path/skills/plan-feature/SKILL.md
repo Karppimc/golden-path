@@ -45,6 +45,8 @@ One page at most:
 
 Show the plan and ask for a yes or changes. Revise until the user agrees. Then post the agreed plan as a comment on the issue (`gh issue comment <n> --body-file <file>`), headed "Plan", so the owner and any later session can find it.
 
+If the plan chose between real alternatives on something that will outlive this issue (a tool, an architecture, a rule of the process), offer `/golden-path:write-adr`: the record goes into the same PR.
+
 ## 3. Todo
 
 Turn the plan into a todo list and keep it current while working:

@@ -6,7 +6,7 @@ It is the "paved road" of an Internal Developer Platform, applied to AI-assisted
 
 Used by [homelab-platform](https://github.com/karppimc/homelab-platform) (Proxmox, Terraform, Ansible, k3s).
 
-**15 skills · 1 rules file, loaded every session · 2 commands to install · 0 files you must add per repo**
+**16 skills · 1 rules file, loaded every session · 2 commands to install · 0 files you must add per repo**
 
 ## Why
 
@@ -78,6 +78,7 @@ Keep all installs on the same version, then start a new session. Auto-update can
 |---|---|
 | `/golden-path:pick-issue` | Reads the issue's spec, assigns it, creates the branch, moves the card to In Progress and plans the work against the standards |
 | `/golden-path:plan-feature` | For larger issues: research the issue, code and standards, agree a plan (posted on the issue), turn it into a todo list, implement and review |
+| `/golden-path:write-adr` | Records a decision as a numbered record in `docs/adr/` (context, options considered, decision, consequences, sources), supersedes older records and keeps the index in step; never invents reasons |
 | `/golden-path:scaffold-terraform-module` | Creates a module skeleton (`main`, `variables`, `outputs`, `versions`, README) with versions pinned like the repo's and an example validation; passes `review-terraform` as created |
 | `/golden-path:review-terraform` | Runs fmt, validate and tflint, reviews the branch against the Terraform standard and gives a verdict with findings |
 | `/golden-path:review-ansible` | Runs ansible-lint, yamllint and syntax-check (collections in a temp dir, no host contacted), reviews the branch against the Ansible standard and gives a verdict with findings |
@@ -125,6 +126,10 @@ golden-path/
 - **No version bump, no update.** Installed plugins only update when `version` in `plugin.json` goes up. CI fails a PR that changes the plugin without bumping it.
 - **Short rules, details on demand.** Everything Claude reads every session costs context, so `rules.md` stays around 350 words.
 - **Claude does the work, a human owns the result.** Every PR needs an approval from someone who didn't write it. In a repo with one maintainer, that person reviews the PR and their merge is the approval. Claude never merges. Nothing is applied to the cluster without an explicit yes.
+
+## Decisions
+
+Why things are the way they are is recorded in [docs/adr/](docs/adr/README.md), one short record per decision.
 
 ## Developing
 
