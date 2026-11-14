@@ -1,6 +1,6 @@
 ---
 name: pick-issue
-description: Start work on a GitHub issue the golden-path way - read the spec, assign it, create the branch per branching.md, move the card to In Progress and plan the work against the coding standards. Use when the user says start on, pick up, take or work on issue #n, or asks what to work on next.
+description: Start work on a GitHub issue the golden-path way - read the spec, assign it, create the branch per branching.md, move the card to In Progress and plan the work against the coding standards. Use when the user says start on, pick up, take or work on an issue (by number or link), or asks what to work on next.
 ---
 
 # Pick issue

@@ -139,6 +139,12 @@ else
   skipped+=("shellcheck (not installed: sudo apt install shellcheck)")
 fi
 
+lint="$plugin/skills/create-skill/scripts/skill-lint.sh"
+if [ -f "$lint" ]; then
+  if out=$(bash "$lint" 2>&1); then echo "  ok: skill-lint (${#skills[@]} skills)"
+  else grep -vE '^ok ' <<<"$out" | sed 's/^/    /'; fix "skill-lint findings above"; fi
+fi
+
 if have claude; then
   for target in . "./$plugin"; do
     if out=$(claude plugin validate "$target" 2>&1); then echo "  ok: claude plugin validate $target"

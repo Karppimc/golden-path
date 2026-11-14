@@ -1,6 +1,6 @@
 ---
 name: create-pr
-description: Open a pull request for the current branch the golden-path way - title and body per branching.md, Closes #issue, reviewers from CODEOWNERS, and the issue's board card moved to Review. Use when the user asks to open, create, raise or submit a PR, send the branch for review, or after a review skill gives "ready for PR".
+description: Open a pull request for the current branch the golden-path way - title and body per branching.md, a Closes link to the issue, reviewers from CODEOWNERS, and the issue's board card moved to Review. Use when the user asks to open, create, raise or submit a PR, send the branch for review, or after a review skill gives "ready for PR".
 ---
 
 # Create PR
